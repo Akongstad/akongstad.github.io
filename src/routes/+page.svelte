@@ -2,8 +2,11 @@
 	import '../app.pcss';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Avatar from '$lib/components/ui/avatar';
-	import ChevronRight from 'svelte-radix/ChevronRight.svelte';
+	import Sun from "svelte-radix/Sun.svelte";
+	import Moon from "svelte-radix/Moon.svelte";
+	import {LinkedinLogo, GithubLogo, DiscordLogo} from 'svelte-radix';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import { toggleMode } from "mode-watcher";
 </script>
 
 <!--Navbar-->
@@ -29,16 +32,20 @@
 		</li>
 	</ul>
 	<!--socials-->
-	<ul class="flex pl-10 pt-5">
+	<ul class="flex pl-10 pt-5 pr-3">
 		<li >
 			<Button variant="ghost" size="icon" >
-				<ChevronRight class="h-4 w-4" />
+				<GithubLogo class="h-4 w-4" />
 			</Button>
 			<Button variant="ghost" size="icon" >
-				<ChevronRight class="h-4 w-4" />
+				<LinkedinLogo class="h-4 w-4" />
 			</Button>
 			<Button variant="ghost" size="icon" >
-				<ChevronRight class="h-4 w-4" />
+				<DiscordLogo class="h-4 w-4" />
+			</Button>
+			<Button on:click={toggleMode} variant="ghost" size="icon">
+				<Sun class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+				<Moon class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
 			</Button>
 		</li>
 	</ul>

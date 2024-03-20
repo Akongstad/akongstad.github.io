@@ -1,17 +1,114 @@
 <script lang="ts">
 	import '../app.pcss';
-</script>
+	import * as Card from '$lib/components/ui/card/index.js';
+	import { onDestroy, onMount } from 'svelte';
+	import {  Code, GithubLogo} from 'svelte-radix';
+	import {slide } from 'svelte/transition';
+	import { Progress } from '$lib/components/ui/progress';
+	import { tweened } from 'svelte/motion';
+	import { cubicOut, linear } from 'svelte/easing';
+	import { typewriter } from '$lib/custom-transitions.js';
+	import { getContributions } from '$lib/github.js';
 
+	let ready = false;
+
+	// Education Progress
+	let edStart = new Date(2020, 8, 1);
+	let edEnd = new Date(2025, 6, 1);
+	let now = new Date();
+	let edProgress = (now.getTime() - edStart.getTime()) / (edEnd.getTime() - edStart.getTime()) * 100;
+	let educationProgress = tweened(0, {
+		duration: 500,
+		easing: cubicOut
+	});
+
+	// Github Contributions
+	let githubContributions = tweened(0, {
+		duration: 300,
+		easing: linear
+	});
+
+
+	onMount( async () => {
+		ready = true;
+		await educationProgress.set(edProgress);
+		await githubContributions.set(await getContributions("akongstad"));
+	});
+	onDestroy(() => {
+		ready = false;
+	});
+
+</script>
 
 <div class="text-center">
 	<header>
 		<h1 class="p-5 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl first:mt-0">
 			Hello there 👋
 		</h1>
-		<p class="leading-8 p-1 px-32 [&:not(:first-child)]:mt-6 text-xl text-muted-foreground">
-			My name is <span class="text-amber-700">Andreas Kongstad</span>, I am a MSc Computer Science Student @ ITU in
-			Copenhagen who likes problem-solving and
-			learning and improving. I also enjoy coffee☕, running🏃, and many things tech🖥️.
-		</p>
+		{#if ready}
+			<p transition:typewriter={{ speed: 2 }}
+				 class="leading-8 p-1 px-32 [&:not(:first-child)]:mt-6 text-xl text-muted-foreground">
+				My name is Andreas Kongstad, I am a MSc Computer Science Student @ ITU in
+				Copenhagen who likes problem-solving and improving. I also enjoy coffee☕, running🏃, and many things tech🖥️.
+			</p>
+		{/if}
 	</header>
 </div>
+
+{#if ready}
+<div class="grid gap-4 md:grid-cols-2 p-20 " transition:slide={{delay:3, duration: 500, axis:'x'}}>
+		<Card.Root>
+			<Card.Header
+				class="flex flex-row items-center justify-between space-y-0 pb-6">
+				<Card.Title class="text-sm font-medium">Education Progress | MSc Computer Science</Card.Title>
+				<Code class="h-4 w-4 text-muted-foreground" />
+			</Card.Header>
+			<Card.Content>
+				<Progress value={$educationProgress} />
+				<div class="flex justify-between pt-2">
+					<p class="text-xs text-muted-foreground">{edStart.toDateString()}</p>
+					<p class="text-xs text-muted-foreground">{Math.round(edProgress)}%</p>
+					<p class="text-xs text-muted-foreground">{edEnd.toDateString()}</p>
+				</div>
+			</Card.Content>
+		</Card.Root>
+		<Card.Root>
+			<Card.Header
+				class="flex flex-row items-center justify-between space-y-0 pb-2"
+			>
+				<Card.Title class="text-sm font-medium">Github Contributions: the last year</Card.Title>
+				<GithubLogo class="h-4 w-4 text-muted-foreground" />
+			</Card.Header>
+			<Card.Content>
+				<div class="text-2xl font-bold">+{Math.round($githubContributions)}</div>
+				<p class="text-xs text-muted-foreground">+180.1% from previous year</p>
+			</Card.Content>
+		</Card.Root>
+		<Card.Root>
+			<Card.Header
+				class="flex flex-row items-center justify-between space-y-0 pb-2"
+			>
+				<Card.Title class="text-sm font-medium">Sales</Card.Title>
+				<GithubLogo class="h-4 w-4 text-muted-foreground" />
+			</Card.Header>
+			<Card.Content>
+				<div class="text-2xl font-bold">+12,234</div>
+				<div class="flex justify-between">
+					<p class="text-xs text-muted-foreground">{edStart}</p>
+				</div>
+			</Card.Content>
+		</Card.Root>
+		<Card.Root>
+			<Card.Header
+				class="flex flex-row items-center justify-between space-y-0 pb-2"
+			>
+				<Card.Title class="text-sm font-medium">Active Now</Card.Title>
+				<GithubLogo class="h-4 w-4 text-muted-foreground" />
+			</Card.Header>
+			<Card.Content>
+				<div class="text-2xl font-bold">+573</div>
+				<p class="text-xs text-muted-foreground">+201 since last hour</p>
+			</Card.Content>
+		</Card.Root>
+		</div>
+{/if}

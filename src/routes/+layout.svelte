@@ -1,45 +1,57 @@
 <script lang="ts">
-import { toggleMode } from 'mode-watcher';
-import { DiscordLogo, GithubLogo, LinkedinLogo } from 'svelte-radix';
-import Sun from 'svelte-radix/Sun.svelte';
-import Moon from 'svelte-radix/Moon.svelte';
-import { Separator } from '$lib/components/ui/separator';
-import { Button } from '$lib/components/ui/button';
-import * as Avatar from '$lib/components/ui/avatar';
-import { Skeleton } from '$lib/components/ui/skeleton';
-
-let page = 'home';
+	import { toggleMode } from 'mode-watcher';
+	import { DiscordLogo, GithubLogo, LinkedinLogo } from 'svelte-radix';
+	import Sun from 'svelte-radix/Sun.svelte';
+	import Moon from 'svelte-radix/Moon.svelte';
+	import { Separator } from '$lib/components/ui/separator';
+	import { Button } from '$lib/components/ui/button';
+	import * as Avatar from '$lib/components/ui/avatar';
+	import { Skeleton } from '$lib/components/ui/skeleton';
+	import { page } from '$app/stores';
 
 </script>
 
 
 <!--Navbar-->
 <nav class="flex justify-between bg-opacity-30 pt-5 px-8 pb-3">
-	<div>
-		<a href="/" class="inline-flex hover:underline space-x-2">
-			<Avatar.Root class="size-8">
-				<Avatar.Image src="https://github.com/Akongstad.png" alt="Andreas Kongstad" />
-				<Avatar.Fallback>
-					<Skeleton class="size-8 rounded-full" />
-				</Avatar.Fallback>
-			</Avatar.Root>
-			<div class="text-lg font-semibold pt-1">andreas/kongstad</div>
+	<div class="flex space-x-7 pt-1">
+		<div>
+			<a href="/" class="inline-flex hover:underline space-x-1">
+				<Avatar.Root class="size-8">
+					<Avatar.Image src="https://github.com/Akongstad.png" alt="Andreas Kongstad" />
+					<Avatar.Fallback>
+						<Skeleton class="size-8 rounded-full" />
+					</Avatar.Fallback>
+				</Avatar.Root>
+				{#if $page.url.pathname === "/"}
+					<div class="text-lg font-semibold">andreas/kongstad</div>
+				{:else }
+					<div class="text-lg font-light text-muted-foreground hover:text-accent-foreground">andreas/kongstad</div>
+				{/if}
+			</a>
+		</div>
+		<a href="/projects" class="text-bsm hover:underline">
+			{#if $page.url.pathname === "/projects"}
+				<div class="text-lg font-semibold">projects</div>
+			{:else }
+				<div class="text-lg font-light text-muted-foreground hover:text-accent-foreground">projects</div>
+			{/if}
+		</a>
+		<a href="/" class="text-bsm text-muted-foreground hover:text-accent-foreground cursor-not-allowed">
+			<div class="text-lg font-light">blog</div>
 		</a>
 	</div>
-	<a href="/projects" class="text-bsm text-muted-foreground hover:text-accent-foreground">
-		<div class="text-lg font-light pt-1">projects</div>
-	</a>
-	<a href="/blog" class="text-bsm text-muted-foreground hover:text-accent-foreground cursor-not-allowed">
-		<div class="text-lg font-light pt-1">blog</div>
-	</a>
-	<div class="px-60"></div>
 	<!--socials-->
 	<div>
 		<Button variant="ghost" size="icon">
-			<GithubLogo class="h-6 w-6" />
+			<a href="https://github.com/Akongstad" target="_blank" rel="noreferrer">
+				<GithubLogo class="h-6 w-6" />
+			</a>
 		</Button>
 		<Button variant="ghost" size="icon">
-			<LinkedinLogo class="h-6 w-6" />
+			<a href="https://www.linkedin.com/in/andreas-kongstad/" target="_blank" rel="noreferrer">
+				<LinkedinLogo class="h-6 w-6" />
+			</a>
 		</Button>
 		<Button variant="ghost" size="icon">
 			<DiscordLogo class="h-6 w-6" />

@@ -1,6 +1,5 @@
 /** @type {import('./$types').PageLoad} */
 export async function load({ fetch }) {
-
 	// Set the GitHub API endpoint
 	const username = "akongstad";
 	const endpoint = `https://api.github.com/users/${username}/events?per_page=100`;

@@ -37,9 +37,6 @@
 				<div class="text-lg font-light text-muted-foreground hover:text-accent-foreground">projects</div>
 			{/if}
 		</a>
-		<a href="/" class="text-bsm text-muted-foreground hover:text-accent-foreground cursor-not-allowed">
-			<div class="text-lg font-light">blog</div>
-		</a>
 	</div>
 	<!--socials-->
 	<div>

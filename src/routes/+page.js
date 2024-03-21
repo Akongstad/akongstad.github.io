@@ -12,19 +12,31 @@ export async function load({ fetch }) {
 	const twoMonthsAgo = new Date(currentYear, currentMonth - 2, currentDate.getDate());
 
 	// Make the API request to get all events for the user
-	const events =await fetch(endpoint);
+	try {
+		const contributions_2_months = fetch(endpoint)
+			.then((events) => events.json())
+			.then((events_json) => events_json.filter((e) => {
+				const eventDate = new Date(e.created_at);
+				return eventDate >= twoMonthsAgo && e.type === "PushEvent";
+			}));
 
-	// Filter response
-	const events_json = await events.json();
-	const thisMonth = events_json.filter(( /** @type {{ created_at: string | number | Date; type: string; }} */ e) => {
-		const eventDate = new Date(e.created_at);
-		return eventDate >= oneMonthAgo && e.type === "PushEvent";
-	});
+		const thisMonth = contributions_2_months.then(
+			(events) => events.filter((e) => {
+			const eventDate = new Date(e.created_at);
+			return eventDate >= oneMonthAgo && e.type === "PushEvent";
+		}));
 
-	const lastMonth = events_json.filter((/** @type {{ created_at: string | number | Date; type: string; }} */ e) => {
-		const eventDate = new Date(e.created_at);
-		return eventDate >= twoMonthsAgo && eventDate < oneMonthAgo && e.type === "PushEvent";
-	});
+		const lastMonth = contributions_2_months.then(
+			(events) => events.filter((e) => {
+			const eventDate = new Date(e.created_at);
+			return eventDate < oneMonthAgo && eventDate >= twoMonthsAgo && e.type === "PushEvent";
+		}));
 
-	return { thisYear: thisMonth.length, lastYear: lastMonth.length};
+		return { thisYear: thisMonth, lastYear: lastMonth};
+	} catch (error) {
+		const thisMonth = [], lastMonth = [];
+		console.error(error);
+		return { thisYear: thisMonth, lastYear: lastMonth};
+	}
+
 }

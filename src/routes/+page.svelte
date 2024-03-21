@@ -57,13 +57,14 @@
 
 	onMount(async () => {
 		ready = true;
-		let thisYear = await data.thisYear;
-		let lastYear = await data.lastYear;
+		educationProgress.set(edProgress);
+		let thisYear = await data.thisMonth;
+		let lastYear = await data.lastMonth;
 		let diff = thisYear.length - lastYear.length;
 		let diffPercent = (diff / lastYear.length) * 100;
-		educationProgress.set(edProgress);
 		await githubThisYear.set(thisYear.length);
 		await githubLastYear.set(diffPercent);
+
 	});
 	onDestroy(() => {
 		ready = false;
@@ -94,19 +95,19 @@
 </div>
 
 {#if ready}
-	<div class="grid gap-4 md:grid-cols-2 p-20 " transition:fade={{duration: 100}}>
+	<div class="grid gap-4 md:grid-cols-2 grid-cols-1 p-20  " transition:fade={{duration: 100}}>
 		<Card.Root>
 			<Card.Header
 				class="flex flex-row items-center justify-between space-y-0 pb-6">
-				<Card.Title class="text-sm font-medium">Education Progress | MSc Computer Science</Card.Title>
-				<Calendar class="h-4 w-4 text-muted-foreground" />
+				<Card.Title class="text-base font-medium">Education Progress | MSc Computer Science</Card.Title>
+				<Calendar class="h-6 w-6 text-muted-foreground" />
 			</Card.Header>
 			<Card.Content>
 				<Progress value={$educationProgress} />
 				<div class="flex justify-between pt-2">
-					<p class="text-xs text-muted-foreground">{edStart.toDateString()}</p>
-					<p class="text-xs text-muted-foreground">{Math.round(edProgress)}%</p>
-					<p class="text-xs text-muted-foreground">{edEnd.toDateString()}</p>
+					<p class="text-sm text-muted-foreground">{edStart.toDateString()}</p>
+					<p class="text-sm text-muted-foreground">{Math.round(edProgress)}%</p>
+					<p class="text-sm text-muted-foreground">{edEnd.toDateString()}</p>
 				</div>
 			</Card.Content>
 		</Card.Root>
@@ -114,23 +115,23 @@
 			<Card.Header
 				class="flex flex-row items-center justify-between space-y-0 pb-2"
 			>
-				<Card.Title class="text-sm font-medium">Contributions (This month):</Card.Title>
-				<GithubLogo class="h-4 w-4 text-muted-foreground" />
+				<Card.Title class="text-base font-medium">Contributions (This month):</Card.Title>
+				<GithubLogo class="h-6 w-6 text-muted-foreground" />
 			</Card.Header>
 			<Card.Content>
 				{#if $githubThisYear === 0}
-					<p class="text-xs text-muted-foreground">Github API rate limit reached. Come back later</p>
+					<p class="text-sm text-foreground">Github API rate limit reached. Come back later</p>
 				{:else}
 					<div class="text-2xl font-bold"
 							 title="The total number of contributions made to public GitHub repositories in the past month">
 						+{Math.round($githubThisYear)}</div>
 				{/if}
 				{#if diff > 0}
-					<p class="text-xs text-muted-foreground"
+					<p class="text-sm text-muted-foreground"
 						 title="the percentage increase or decrease in contributions compared to the last month.">
 						+{Math.round($githubLastYear)}% from last month</p>
 				{:else}
-					<p class="text-xs text-muted-foreground"
+					<p class="text-sm text-muted-foreground"
 						 title="the percentage increase or decrease in contributions compared to the month.">{Math.round($githubLastYear)}
 						% from last month</p>
 				{/if}

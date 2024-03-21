@@ -1,7 +1,9 @@
+import { error } from '@sveltejs/kit';
+
 /** @type {import('./$types').PageLoad} */
 export async function load({ fetch }) {
 	// Set the GitHub API endpoint
-	const username = "akongstad";
+	const username = 'akongstad';
 	const endpoint = `https://api.github.com/users/${username}/events?per_page=100`;
 
 	// Get the dates
@@ -12,31 +14,31 @@ export async function load({ fetch }) {
 	const twoMonthsAgo = new Date(currentYear, currentMonth - 2, currentDate.getDate());
 
 	// Make the API request to get all events for the user
-	try {
-		const contributions_2_months = fetch(endpoint)
-			.then((events) => events.json())
-			.then((events_json) => events_json.filter((e) => {
-				const eventDate = new Date(e.created_at);
-				return eventDate >= twoMonthsAgo && e.type === "PushEvent";
-			}));
-
-		const thisMonth = contributions_2_months.then(
-			(events) => events.filter((e) => {
+	const contributions_2_months = fetch(endpoint)
+		.then(response => {
+			if (!response.ok) {
+				throw error(420, 'GitGub API limit exceeded');
+			}
+			return response.json();
+		})
+		.then(events_json => events_json.filter(e => {
 			const eventDate = new Date(e.created_at);
-			return eventDate >= oneMonthAgo && e.type === "PushEvent";
+			return eventDate >= twoMonthsAgo && e.type === 'PushEvent';
+		})).catch((error) => { // Catch the error if the API limit is exceeded
+			{ console.log('Error: ', error); return []}
+		});
+
+	const thisMonth = contributions_2_months.then(
+		(events) => events.filter((e) => {
+			const eventDate = new Date(e.created_at);
+			return eventDate >= oneMonthAgo && e.type === 'PushEvent';
 		}));
 
-		const lastMonth = contributions_2_months.then(
-			(events) => events.filter((e) => {
+	const lastMonth = contributions_2_months.then(
+		(events) => events.filter((e) => {
 			const eventDate = new Date(e.created_at);
-			return eventDate < oneMonthAgo && eventDate >= twoMonthsAgo && e.type === "PushEvent";
+			return eventDate < oneMonthAgo && eventDate >= twoMonthsAgo && e.type === 'PushEvent';
 		}));
 
-		return { thisYear: thisMonth, lastYear: lastMonth};
-	} catch (error) {
-		const thisMonth = [], lastMonth = [];
-		console.error(error);
-		return { thisYear: thisMonth, lastYear: lastMonth};
-	}
-
+	return { thisMonth: thisMonth, lastMonth: lastMonth };
 }

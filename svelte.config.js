@@ -26,7 +26,7 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter({
-			fallback: 'index.html'
+			fallback: process.env.BASE_PATH
 		}),
 		paths: {
 			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH

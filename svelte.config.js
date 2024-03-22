@@ -20,7 +20,6 @@ export default config;*/
 // GitHub Pages
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import { base } from '$app/paths';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -30,7 +29,7 @@ const config = {
 			fallback: '404.html'
 		}),
 		paths: {
-			base: process.argv.includes('dev') ? '' : base
+			base: process.argv.includes('dev') ? '/andreaskongstad.dev' : '/andreaskongstad.dev'
 			//base: process.argv.includes('dev') ? '' : `/andreaskongstad.dev`
 		}
 	}

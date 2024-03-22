@@ -2,19 +2,18 @@
 	import '../app.pcss';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { onDestroy, onMount } from 'svelte';
-	import { GithubLogo, ChevronDown, Calendar } from 'svelte-radix';
+	import { GithubLogo, EnvelopeClosed, Calendar, LinkedinLogo } from 'svelte-radix';
 	import { fade } from 'svelte/transition';
 	import { Progress } from '$lib/components/ui/progress';
 	import { tweened } from 'svelte/motion';
 	import { cubicOut, linear } from 'svelte/easing';
 	import { typewriter } from '$lib/custom-transitions.js';
 	import { Button } from '$lib/components/ui/button';
-	import * as Carousel from '$lib/components/ui/carousel/index.js';
-	import type { CarouselAPI } from '$lib/components/ui/carousel/context.js';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 
 	let ready = false;
+	let bio = false;
 
 	/** @type {import('./$types').LayoutData} */
 
@@ -40,20 +39,6 @@
 	export let data;
 	let diff = 0;
 
-	let api: CarouselAPI;
-	let current = 0;
-	let count = 0;
-
-	$: if (api) {
-		count = api.scrollSnapList().length;
-		current = api.selectedScrollSnap() + 1;
-
-		api.on('select', () => {
-			console.log('current');
-			current = api.selectedScrollSnap() + 1;
-		});
-	}
-
 
 	onMount(async () => {
 		ready = true;
@@ -63,6 +48,7 @@
 		let diff = thisYear.length - lastYear.length;
 		let diffPercent = (diff / lastYear.length) * 100;
 		await githubThisYear.set(thisYear.length);
+		bio = true;
 		await githubLastYear.set(diffPercent);
 
 	});
@@ -79,28 +65,40 @@
 		</Avatar.Fallback>
 	</Avatar.Root>
 </div>
-<div class="text-center">
 	<header>
-		<h1 class="p-2 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl first:mt-0">
-			Hello there 👋
-		</h1>
 		{#if ready}
-			<p transition:typewriter={{ speed: 3 }}
-				 class="leading-8 p-1 px-32 [&:not(:first-child)]:mt-6 text-xl text-muted-foreground">
-				My name is Andreas Kongstad, I am a MSc Computer Science Student @ ITU in
-				Copenhagen who likes problem-solving and improving. I also enjoy coffee☕, running🏃, and many things tech🖥️.
-			</p>
+			<div class="mb-1 md:px-20 px-5 ">
+			<Card.Root class="p-4 bg-accent justify-center text-start min-h-48">
+					<div class="flex items-center mb-1">
+						<div class="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
+						<div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
+						<div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
+					</div>
+				<Card.Header>
+					<Card.Title>
+						<pre><span class="text-green-600">visitor@andreas-kongstad</span>:<span class="text-blue-500">/home/andreas$</span> <span transition:typewriter={{ speed: 3 }}>cat whoami.txt</span></pre>
+					</Card.Title>
+				</Card.Header>
+				<Card.Content>
+					{#if bio}
+					<code class="text-start font-mono" transition:typewriter={{ speed: 3 }}>Hello, my name is Andreas Kongstad, I am a MSc Computer Science Student @ ITU in Copenhagen who likes problem-solving and improving. I also enjoy coffee☕, running🏃, and many things tech🖥️.
+					</code>
+						{/if}
+				</Card.Content>
+			</Card.Root>
+			</div>
 		{/if}
 	</header>
-</div>
+
 
 {#if ready}
-	<div class="grid gap-4 md:grid-cols-2 grid-cols-1 p-20  " transition:fade={{duration: 100}}>
+	<div class="grid gap-4 md:grid-cols-2 grid-cols-1 md:px-20 px-5 py-4  " transition:fade={{duration: 250}}>
 		<Card.Root>
-			<Card.Header
-				class="flex flex-row items-center justify-between space-y-0 pb-6">
+			<Card.Header>
+				<div class="flex flex-row items-center justify-between space-y-0 pb-6">
 				<Card.Title class="text-base font-medium">Education Progress | MSc Computer Science</Card.Title>
 				<Calendar class="h-6 w-6 text-muted-foreground" />
+				</div>
 			</Card.Header>
 			<Card.Content>
 				<Progress value={$educationProgress} />
@@ -138,33 +136,21 @@
 			</Card.Content>
 		</Card.Root>
 	</div>
-	<div class="justify-center grid">
-		<Button variant="ghost" size="icon" class="size-20">
-			<ChevronDown class="size-full" />
+	<div class=" text-center">
+		<Button variant="ghost" size="icon" class="size-12">
+			<a href="https://github.com/Akongstad" target="_blank" rel="noreferrer">
+				<GithubLogo class="h-8 w-8 hover:text-purple-700" />
+			</a>
 		</Button>
-		<h2 class="text-2xl font-bold text-accent-foreground text-center pt-64">Projects</h2>
-	</div>
-	<div class="grid justify-center p-5">
-		<Carousel.Root bind:api class="md:w-[800px] sm:w-[500px] lg:w-px[1200]">
-			<Carousel.Content>
-				{#each Array(5) as _, i (i)}
-					<Carousel.Item class="md:basis-1/3 sm:basis-1/2">
-						<div>
-						<Card.Root>
-							<Card.Content
-								class="flex aspect-square items-center justify-center p-6">
-								<span class="text-4xl font-semibold">{i + 1}</span>
-							</Card.Content>
-						</Card.Root>
-					</div>
-					</Carousel.Item>
-				{/each}
-			</Carousel.Content>
-			<Carousel.Previous />
-			<Carousel.Next />
-		</Carousel.Root>
-		<div class="py-2 text-center text-sm text-muted-foreground">
-			Slide {current} of {count}
-		</div>
+		<Button variant="ghost" size="icon" class="size-12">
+			<a href="https://www.linkedin.com/in/andreas-kongstad/" target="_blank" rel="noreferrer">
+				<LinkedinLogo class="h-8 w-8 hover:text-blue-700" />
+			</a>
+		</Button>
+		<Button variant="ghost" size="icon" class="size-12">
+			<a href = "mailto: akongstad.contact@icloud.com">
+				<EnvelopeClosed class="h-8 w-8 hover:text-blue-700" />
+			</a>
+		</Button>
 	</div>
 {/if}

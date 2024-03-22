@@ -38,21 +38,8 @@
 			{/if}
 		</a>
 	</div>
-	<!--socials-->
+	<!--icons-->
 	<div>
-		<Button variant="ghost" size="icon">
-			<a href="https://github.com/Akongstad" target="_blank" rel="noreferrer">
-				<GithubLogo class="h-6 w-6" />
-			</a>
-		</Button>
-		<Button variant="ghost" size="icon">
-			<a href="https://www.linkedin.com/in/andreas-kongstad/" target="_blank" rel="noreferrer">
-				<LinkedinLogo class="h-6 w-6" />
-			</a>
-		</Button>
-		<Button variant="ghost" size="icon">
-			<DiscordLogo class="h-6 w-6" />
-		</Button>
 		<Button on:click={toggleMode} variant="ghost" size="icon">
 			<Sun class="h-6 w-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
 			<Moon class="absolute h-6 w-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />

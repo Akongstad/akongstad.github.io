@@ -26,10 +26,10 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter({
-			fallback: '404.html'
+			fallback: '/andreaskongstad.dev/404.html'
 		}),
 		paths: {
-			base: process.argv.includes('dev') ? '/andreaskongstad.dev' : '/andreaskongstad.dev'
+			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH
 			//base: process.argv.includes('dev') ? '' : `/andreaskongstad.dev`
 		}
 	}

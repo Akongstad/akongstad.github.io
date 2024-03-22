@@ -45,11 +45,11 @@
 	onMount(async () => {
 		ready = true;
 		educationProgress.set(edProgress);
-		let thisYear = await data.thisMonth;
-		let lastYear = await data.lastMonth;
-		let diff = thisYear.length - lastYear.length;
-		let diffPercent = (diff / lastYear.length) * 100;
-		await githubThisYear.set(thisYear.length);
+		let thisMonth = await data.thisMonth;
+		let lastMonth = await data.lastMonth;
+		diff = thisMonth.length - lastMonth.length;
+		let diffPercent = (diff / lastMonth.length) * 100;
+		await githubThisYear.set(thisMonth.length);
 		await githubLastYear.set(diffPercent);
 		bio = true;
 
@@ -121,7 +121,7 @@
 			<Card.Header
 				class="flex flex-row items-center justify-between space-y-0 pb-2"
 			>
-				<Card.Title class="text-base font-medium">Contributions (This month):</Card.Title>
+				<Card.Title class="text-base font-medium">Public Contributions (This month):</Card.Title>
 				<GithubLogo class="h-6 w-6 text-muted-foreground" />
 			</Card.Header>
 			<Card.Content>
@@ -138,7 +138,7 @@
 						+{Math.round($githubLastYear)}% from last month</p>
 				{:else}
 					<p class="text-sm text-muted-foreground"
-						 title="the percentage increase or decrease in contributions compared to the month.">{Math.round($githubLastYear)}
+						 title="the percentage increase or decrease in contributions compared to the month.">-{Math.round($githubLastYear)}
 						% from last month</p>
 				{/if}
 			</Card.Content>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { toggleMode } from 'mode-watcher';
-	import { DiscordLogo, EnvelopeClosed, GithubLogo, LinkedinLogo } from 'svelte-radix';
+	import { EnvelopeClosed, GithubLogo, LinkedinLogo } from 'svelte-radix';
 	import Sun from 'svelte-radix/Sun.svelte';
 	import Moon from 'svelte-radix/Moon.svelte';
 	import { Separator } from '$lib/components/ui/separator';
@@ -8,6 +8,8 @@
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { page } from '$app/stores';
+
+	// This can be false if you're using a fallback (i.e. SPA mode)
 
 </script>
 
@@ -18,7 +20,7 @@
 		<div>
 			<a href="/" class="inline-flex hover:underline space-x-1">
 				<Avatar.Root class="size-8">
-					<Avatar.Image src="https://github.com/Akongstad.png" alt="Andreas Kongstad" />
+					<Avatar.Image src="/static/90042173.jpeg" alt="Andreas Kongstad" />
 					<Avatar.Fallback>
 						<Skeleton class="size-8 rounded-full" />
 					</Avatar.Fallback>

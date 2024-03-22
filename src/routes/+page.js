@@ -21,7 +21,7 @@ export async function load({ fetch }) {
 			}
 			return response.json();
 		})
-		.then(events_json => events_json.filter(e => {
+		.then(events_json => events_json.filter((/** @type {{ created_at: string | number | Date; type: string; }} */ e) => {
 			const eventDate = new Date(e.created_at);
 			return eventDate >= lastMonth && e.type === 'PushEvent';
 		})).catch((error) => { // Catch the error if the API limit is exceeded
@@ -29,13 +29,13 @@ export async function load({ fetch }) {
 		});
 
 	const contsThisMonth = contributions_2_months.then(
-		(events) => events.filter((e) => {
+		(events) => events.filter((/** @type {{ created_at: string | number | Date; type: string; }} */ e) => {
 			const eventDate = new Date(e.created_at);
 			return eventDate >= thisMonth && e.type === 'PushEvent';
 		}));
 
 	const contsLastMonth = contributions_2_months.then(
-		(events) => events.filter((e) => {
+		(events) => events.filter((/** @type {{ created_at: string | number | Date; type: string; }} */ e) => {
 			const eventDate = new Date(e.created_at);
 			return eventDate < thisMonth && eventDate >= lastMonth && e.type === 'PushEvent';
 		}));

@@ -8,6 +8,7 @@
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 
 	// This can be false if you're using a fallback (i.e. SPA mode)
 
@@ -18,22 +19,22 @@
 <nav class="flex justify-between bg-opacity-30 pt-5 px-8 pb-3">
 	<div class="flex space-x-7 pt-1">
 		<div>
-			<a href="/" class="inline-flex hover:underline space-x-1">
+			<a href="{base}/" class="inline-flex hover:underline space-x-1">
 				<Avatar.Root class="size-8">
 					<Avatar.Image src="https://github.com/Akongstad.png" alt="Andreas Kongstad" />
 					<Avatar.Fallback>
 						<Skeleton class="size-8 rounded-full" />
 					</Avatar.Fallback>
 				</Avatar.Root>
-				{#if $page.url.pathname === "/"}
+				{#if $page.url.pathname === base+"/"}
 					<div class="text-lg font-semibold">andreas/kongstad</div>
 				{:else }
 					<div class="text-lg font-light text-muted-foreground hover:text-accent-foreground">andreas/kongstad</div>
 				{/if}
 			</a>
 		</div>
-		<a href="/projects" class="text-bsm hover:underline">
-			{#if $page.url.pathname === "/projects"}
+		<a href="{base}/projects" class="text-bsm hover:underline">
+			{#if $page.url.pathname === base+"/projects"}
 				<div class="text-lg font-semibold">projects</div>
 			{:else }
 				<div class="text-lg font-light text-muted-foreground hover:text-accent-foreground">projects</div>

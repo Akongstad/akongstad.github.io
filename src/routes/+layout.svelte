@@ -20,7 +20,7 @@
 		<div>
 			<a href="/" class="inline-flex hover:underline space-x-1">
 				<Avatar.Root class="size-8">
-					<Avatar.Image src="/static/90042173.jpeg" alt="Andreas Kongstad" />
+					<Avatar.Image src="https://github.com/Akongstad.png" alt="Andreas Kongstad" />
 					<Avatar.Fallback>
 						<Skeleton class="size-8 rounded-full" />
 					</Avatar.Fallback>

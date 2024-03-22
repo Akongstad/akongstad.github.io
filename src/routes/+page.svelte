@@ -25,13 +25,13 @@
 	let now = new Date();
 	let edProgress = (now.getTime() - edStart.getTime()) / (edEnd.getTime() - edStart.getTime()) * 100;
 	let educationProgress = tweened(0, {
-		duration: 1000,
+		duration: 500,
 		easing: cubicOut
 	});
 
 	// Github Contributions
 	let githubThisYear = tweened(0, {
-		duration: 1000,
+		duration: 500,
 		easing: linear
 	});
 	let githubLastYear = tweened(0, {
@@ -68,82 +68,85 @@
 	</Avatar.Root>
 </div>
 <header>
-	{#if ready}
-		<div class="flex justify-center mb-1 md:px-20 px-5 text-center ">
-			<Card.Root class=" p-4 bg-accent text-left min-h-48 sm:w-[600px] md:w-[900px]">
-				<div class="flex items-center mb-1">
-					<div class="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
-					<div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
-					<div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
-				</div>
-				<Card.Header>
-					<Card.Title>
-						<pre><span class="text-green-600">you@andreas-kongstad</span>:<span
-							class="text-blue-500">/home/andreas$</span> <span
-							transition:typewriter={{ speed: 1 }}>cat whoami.txt</span></pre>
-					</Card.Title>
-				</Card.Header>
-				<Card.Content>
-					{#if bio}
-						<code class="text-start font-mono" transition:typewriter={{ speed: 3 }}>Hello, my name is Andreas Kongstad,
-							I am a MSc Computer Science Student @ ITU in Copenhagen who likes problem-solving and improving. I also
-							enjoy coffee☕, running🏃, and many things tech🖥️.
-						</code>
-					{/if}
-				</Card.Content>
-			</Card.Root>
-		</div>
-	{/if}
-</header>
-
-
-{#if ready}
-	<div class="flex justify-center ">
-	<div class="grid gap-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 md:px-20 px-5 py-4 md:w-[1000px] w-[590px]"
-			 transition:fade={{duration: 250}}>
-		<Card.Root >
+	<div class="flex justify-center mb-1 md:px-20 px-5 text-center ">
+		<Card.Root class=" p-4 bg-accent text-left min-h-48 sm:w-[600px] md:w-[900px]">
+			<div class="flex items-center mb-1">
+				<div class="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
+				<div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
+				<div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
+			</div>
 			<Card.Header>
-				<div class="flex flex-row items-center justify-between space-y-0">
-					<Card.Title class="text-base font-medium">Education Progress | MSc Computer Science</Card.Title>
-					<Calendar class="h-6 w-6 text-muted-foreground" />
-				</div>
+				<Card.Title>
+						<pre><span class="text-green-600">you@andreas-kongstad</span>:<span
+							class="text-blue-500">/home/andreas$</span>{#if ready}<span transition:typewriter={{ speed: 1 }}> cat whoami.txt</span>{/if}</pre>
+				</Card.Title>
 			</Card.Header>
 			<Card.Content>
-				<Progress value={$educationProgress} />
-				<div class="flex justify-between pt-2">
-					<p class="text-sm text-muted-foreground">{edStart.toDateString()}</p>
-					<p class="text-sm text-muted-foreground">{Math.round(edProgress)}%</p>
-					<p class="text-sm text-muted-foreground">{edEnd.toDateString()}</p>
-				</div>
-			</Card.Content>
-		</Card.Root>
-		<Card.Root>
-			<Card.Header
-				class="flex flex-row items-center justify-between space-y-0 pb-2"
-			>
-				<Card.Title class="text-base font-medium">Public Contributions (This month):</Card.Title>
-				<GithubLogo class="h-6 w-6 text-muted-foreground" />
-			</Card.Header>
-			<Card.Content>
-				{#if $githubThisYear === 0}
-					<p class="text-sm text-foreground">Github API rate limit reached. Come back later</p>
-				{:else}
-					<div class="text-2xl font-bold"
-							 title="The total number of contributions made to public GitHub repositories in the past month">
-						+{Math.round($githubThisYear)}</div>
-				{/if}
-				{#if diff > 0}
-					<p class="text-sm text-muted-foreground"
-						 title="the percentage increase or decrease in contributions compared to the last month.">
-						+{Math.round($githubLastYear)}% from last month</p>
-				{:else}
-					<p class="text-sm text-muted-foreground"
-						 title="the percentage increase or decrease in contributions compared to the month.">-{Math.round($githubLastYear)}
-						% from last month</p>
+				{#if bio}
+					<code class="text-start font-mono" transition:typewriter={{ speed: 3 }}>Hello, my name is Andreas Kongstad,
+						I am a MSc Computer Science Student @ ITU in Copenhagen who likes problem-solving and improving. I also
+						enjoy coffee☕, running🏃, and many things tech🖥️.
+					</code>
 				{/if}
 			</Card.Content>
 		</Card.Root>
 	</div>
+</header>
+
+
+	<div class="flex justify-center ">
+		<div class="grid gap-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 md:px-20 px-5 py-4 md:w-[1000px] w-[590px]"
+				 transition:fade={{duration: 100}}>
+			<Card.Root>
+				<Card.Header>
+					<div class="flex flex-row items-center justify-between space-y-0">
+						<Card.Title class="text-base font-medium">Education Progress | MSc Computer Science</Card.Title>
+						<Calendar class="h-6 w-6 text-muted-foreground" />
+					</div>
+				</Card.Header>
+				{#if ready}
+				<Card.Content>
+					<Progress value={$educationProgress} />
+					<div class="flex justify-between pt-2">
+						<p class="text-sm text-muted-foreground">{edStart.toDateString()}</p>
+						<p class="text-sm text-muted-foreground">{Math.round(edProgress)}%</p>
+						<p class="text-sm text-muted-foreground">{edEnd.toDateString()}</p>
+					</div>
+				</Card.Content>
+					{/if}
+			</Card.Root>
+			<Card.Root>
+				<div title="The total number of contributions made to public GitHub repositories in the past month">
+					<Card.Header
+						class="flex flex-row items-center justify-between space-y-0 pb-2"
+					>
+						<Card.Title class="text-base font-medium">Public Contributions (This month):</Card.Title>
+						<GithubLogo class="h-6 w-6 text-muted-foreground" />
+					</Card.Header>
+					{#if ready}
+					<Card.Content>
+						{#if $githubThisYear === 0}
+							<p class="text-sm text-foreground">Github API rate limit reached. Come back later</p>
+						{:else}
+							<div class="text-2xl font-bold"
+									 title="The total number of contributions made to public GitHub repositories in the past month">
+								+{Math.round($githubThisYear)}</div>
+						{/if}
+						{#if diff > 0}
+							<p class="text-sm text-muted-foreground"
+								 title="the percentage increase or decrease in contributions compared to the last month.">
+								+{Math.round($githubLastYear)}% from last month</p>
+						{:else}
+							<p class="text-sm text-muted-foreground"
+								 title="the percentage increase or decrease in contributions compared to the month.">
+								-{Math.round($githubLastYear)}
+								% from last month</p>
+						{/if}
+					</Card.Content>
+					{/if}
+				</div>
+			</Card.Root>
+		</div>
 	</div>
 	<div class=" text-center pt-6">
 		<Button variant="ghost" size="icon" class="size-12">
@@ -162,7 +165,7 @@
 			</a>
 		</Button>
 	</div>
-{/if}
+
 <footer class="text-center text-muted-foreground text-sm py-4">
 	<p>&copy; 2024 Andreas Kongstad. Built with SvelteKit/Typescript</p>
 </footer>

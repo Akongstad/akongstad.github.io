@@ -1,8 +1,10 @@
+<!--Credits: UI components: ShadCn-->
+
 <script lang="ts">
 	import '../app.pcss';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { onDestroy, onMount } from 'svelte';
-	import { GithubLogo, EnvelopeClosed, Calendar, LinkedinLogo, DiscordLogo } from 'svelte-radix';
+	import { GithubLogo, EnvelopeClosed, Calendar, LinkedinLogo } from 'svelte-radix';
 	import { fade } from 'svelte/transition';
 	import { Progress } from '$lib/components/ui/progress';
 	import { tweened } from 'svelte/motion';
@@ -11,7 +13,6 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Skeleton } from '$lib/components/ui/skeleton';
-	import { Separator } from '$lib/components/ui/separator';
 
 	let ready = false;
 	let bio = false;
@@ -163,5 +164,5 @@
 	</div>
 {/if}
 <footer class="text-center text-muted-foreground text-sm py-4">
-	<p>&copy; 2024 Andreas Kongstad. Built with SvelteKit/Typescript/ShadCN ui components</p>
+	<p>&copy; 2024 Andreas Kongstad. Built with SvelteKit/Typescript</p>
 </footer>

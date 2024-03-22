@@ -2,7 +2,7 @@
 	import '../app.pcss';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { onDestroy, onMount } from 'svelte';
-	import { GithubLogo, EnvelopeClosed, Calendar, LinkedinLogo } from 'svelte-radix';
+	import { GithubLogo, EnvelopeClosed, Calendar, LinkedinLogo, DiscordLogo } from 'svelte-radix';
 	import { fade } from 'svelte/transition';
 	import { Progress } from '$lib/components/ui/progress';
 	import { tweened } from 'svelte/motion';
@@ -11,6 +11,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Skeleton } from '$lib/components/ui/skeleton';
+	import { Separator } from '$lib/components/ui/separator';
 
 	let ready = false;
 	let bio = false;
@@ -48,8 +49,8 @@
 		let diff = thisYear.length - lastYear.length;
 		let diffPercent = (diff / lastYear.length) * 100;
 		await githubThisYear.set(thisYear.length);
-		bio = true;
 		await githubLastYear.set(diffPercent);
+		bio = true;
 
 	});
 	onDestroy(() => {
@@ -58,46 +59,52 @@
 </script>
 
 <div class="flex justify-center p-10">
-	<Avatar.Root class="size-44 sm:size-44 md:size-60">
+	<Avatar.Root class="size-44 sm:size-44 md:size-60 max-w-96">
 		<Avatar.Image src="https://github.com/Akongstad.png" alt="Andreas Kongstad" />
 		<Avatar.Fallback>
 			<Skeleton class="size-32 sm:size-44 md:size-60 rounded-full" />
 		</Avatar.Fallback>
 	</Avatar.Root>
 </div>
-	<header>
-		{#if ready}
-			<div class="mb-1 md:px-20 px-5 ">
-			<Card.Root class="p-4 bg-accent justify-center text-start min-h-48">
-					<div class="flex items-center mb-1">
-						<div class="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
-						<div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
-						<div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
-					</div>
+<header>
+	{#if ready}
+		<div class="flex justify-center mb-1 md:px-20 px-5 text-center ">
+			<Card.Root class=" p-4 bg-accent text-left min-h-48 sm:w-[600px] md:w-[900px]">
+				<div class="flex items-center mb-1">
+					<div class="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
+					<div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
+					<div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
+				</div>
 				<Card.Header>
 					<Card.Title>
-						<pre><span class="text-green-600">visitor@andreas-kongstad</span>:<span class="text-blue-500">/home/andreas$</span> <span transition:typewriter={{ speed: 3 }}>cat whoami.txt</span></pre>
+						<pre><span class="text-green-600">you@andreas-kongstad</span>:<span
+							class="text-blue-500">/home/andreas$</span> <span
+							transition:typewriter={{ speed: 1 }}>cat whoami.txt</span></pre>
 					</Card.Title>
 				</Card.Header>
 				<Card.Content>
 					{#if bio}
-					<code class="text-start font-mono" transition:typewriter={{ speed: 3 }}>Hello, my name is Andreas Kongstad, I am a MSc Computer Science Student @ ITU in Copenhagen who likes problem-solving and improving. I also enjoy coffee☕, running🏃, and many things tech🖥️.
-					</code>
-						{/if}
+						<code class="text-start font-mono" transition:typewriter={{ speed: 3 }}>Hello, my name is Andreas Kongstad,
+							I am a MSc Computer Science Student @ ITU in Copenhagen who likes problem-solving and improving. I also
+							enjoy coffee☕, running🏃, and many things tech🖥️.
+						</code>
+					{/if}
 				</Card.Content>
 			</Card.Root>
-			</div>
-		{/if}
-	</header>
+		</div>
+	{/if}
+</header>
 
 
 {#if ready}
-	<div class="grid gap-4 md:grid-cols-2 grid-cols-1 md:px-20 px-5 py-4  " transition:fade={{duration: 250}}>
-		<Card.Root>
+	<div class="flex justify-center ">
+	<div class="grid gap-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 md:px-20 px-5 py-4 md:w-[1000px] w-[590px]"
+			 transition:fade={{duration: 250}}>
+		<Card.Root >
 			<Card.Header>
-				<div class="flex flex-row items-center justify-between space-y-0 pb-6">
-				<Card.Title class="text-base font-medium">Education Progress | MSc Computer Science</Card.Title>
-				<Calendar class="h-6 w-6 text-muted-foreground" />
+				<div class="flex flex-row items-center justify-between space-y-0">
+					<Card.Title class="text-base font-medium">Education Progress | MSc Computer Science</Card.Title>
+					<Calendar class="h-6 w-6 text-muted-foreground" />
 				</div>
 			</Card.Header>
 			<Card.Content>
@@ -136,7 +143,8 @@
 			</Card.Content>
 		</Card.Root>
 	</div>
-	<div class=" text-center">
+	</div>
+	<div class=" text-center pt-6">
 		<Button variant="ghost" size="icon" class="size-12">
 			<a href="https://github.com/Akongstad" target="_blank" rel="noreferrer">
 				<GithubLogo class="h-8 w-8 hover:text-purple-700" />
@@ -148,9 +156,12 @@
 			</a>
 		</Button>
 		<Button variant="ghost" size="icon" class="size-12">
-			<a href = "mailto: akongstad.contact@icloud.com">
+			<a href="mailto: akongstad.contact@icloud.com">
 				<EnvelopeClosed class="h-8 w-8 hover:text-blue-700" />
 			</a>
 		</Button>
 	</div>
 {/if}
+<footer class="text-center text-muted-foreground text-sm py-4">
+	<p>&copy; 2024 Andreas Kongstad. Built with SvelteKit/Typescript/ShadCN ui components</p>
+</footer>

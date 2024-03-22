@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { toggleMode } from 'mode-watcher';
-	import { DiscordLogo, GithubLogo, LinkedinLogo } from 'svelte-radix';
+	import { DiscordLogo, EnvelopeClosed, GithubLogo, LinkedinLogo } from 'svelte-radix';
 	import Sun from 'svelte-radix/Sun.svelte';
 	import Moon from 'svelte-radix/Moon.svelte';
 	import { Separator } from '$lib/components/ui/separator';
@@ -40,9 +40,24 @@
 	</div>
 	<!--icons-->
 	<div>
+		<Button variant="ghost" size="icon">
+			<a href="https://github.com/Akongstad" target="_blank" rel="noreferrer">
+				<GithubLogo class="h-6 w-6 hover:text-purple-700" />
+			</a>
+		</Button>
+		<Button variant="ghost" size="icon">
+			<a href="https://www.linkedin.com/in/andreas-kongstad/" target="_blank" rel="noreferrer">
+				<LinkedinLogo class="h-6 w-6 hover:text-blue-700" />
+			</a>
+		</Button>
+		<Button variant="ghost" size="icon">
+			<a href = "mailto: akongstad.contact@icloud.com">
+				<EnvelopeClosed class="h-6 w-6 hover:text-blue-700" />
+			</a>
+		</Button>
 		<Button on:click={toggleMode} variant="ghost" size="icon">
-			<Sun class="h-6 w-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-			<Moon class="absolute h-6 w-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+			<Sun class="h-6 w-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 hover:text-amber-400 " />
+			<Moon class="absolute h-6 w-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 hover:text-amber-200" />
 		</Button>
 	</div>
 </nav>

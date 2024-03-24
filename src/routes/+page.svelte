@@ -5,17 +5,19 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { onDestroy, onMount } from 'svelte';
 	import { GithubLogo, EnvelopeClosed, Calendar, LinkedinLogo } from 'svelte-radix';
-	import { fade } from 'svelte/transition';
+	import { fade, crossfade } from 'svelte/transition';
 	import { Progress } from '$lib/components/ui/progress';
 	import { tweened } from 'svelte/motion';
-	import { cubicOut, linear } from 'svelte/easing';
+	import { cubicOut, linear, quintOut } from 'svelte/easing';
 	import { typewriter } from '$lib/custom-transitions.js';
 	import { Button } from '$lib/components/ui/button';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 
 	let ready = false;
-	let bio = false;
+	let showBio = false;
+	let showStats = false;
+
 
 	/** @type {import('./$types').LayoutData} */
 
@@ -44,19 +46,27 @@
 
 	onMount(async () => {
 		ready = true;
-		educationProgress.set(edProgress);
+		setTimeout(() => {
+			showBio = true;
+		}, 2000);
+
 		let thisMonth = await data.thisMonth;
 		let lastMonth = await data.lastMonth;
 		diff = thisMonth.length - lastMonth.length;
 		let diffPercent = (diff / lastMonth.length) * 100;
+		showStats = true;
+		educationProgress.set(edProgress);
 		await githubThisYear.set(thisMonth.length);
 		await githubLastYear.set(diffPercent);
-		bio = true;
-
 	});
 	onDestroy(() => {
 		ready = false;
+		showBio = false;
 	});
+	const [send, receive] = crossfade({
+		duration: 500,
+	});
+
 </script>
 
 <div class="flex justify-center p-10">
@@ -69,7 +79,7 @@
 </div>
 <header>
 	<div class="flex justify-center mb-1 md:px-20 px-5 text-center ">
-		<Card.Root class=" p-4 bg-accent text-left min-h-48 sm:w-[600px] md:w-[900px]">
+		<Card.Root class=" p-4 bg-accent text-left min-h-56 sm:w-[600px] md:w-[900px]">
 			<div class="flex items-center mb-1">
 				<div class="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
 				<div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
@@ -82,8 +92,8 @@
 				</Card.Title>
 			</Card.Header>
 			<Card.Content>
-				{#if bio}
-					<code class="text-start font-mono" transition:typewriter={{ speed: 3 }}>Hello, my name is Andreas Kongstad,
+				{#if showBio}
+					<code class="text-start font-mono" transition:typewriter={{ speed: 25 }}>Hello, my name is Andreas Kongstad,
 						I am a MSc Computer Science Student @ ITU in Copenhagen who likes problem-solving and improving. I also
 						enjoy coffee☕, running🏃, and many things tech🖥️.
 					</code>
@@ -96,7 +106,7 @@
 
 	<div class="flex justify-center ">
 		<div class="grid gap-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 md:px-20 px-5 py-4 md:w-[1000px] w-[590px]"
-				 transition:fade={{duration: 100}}>
+				 transition:fade={{duration: 10}}>
 			<Card.Root>
 				<Card.Header>
 					<div class="flex flex-row items-center justify-between space-y-0">
@@ -104,7 +114,7 @@
 						<Calendar class="h-6 w-6 text-muted-foreground" />
 					</div>
 				</Card.Header>
-				{#if ready}
+				{#if showStats}
 				<Card.Content>
 					<Progress value={$educationProgress} />
 					<div class="flex justify-between pt-2">
@@ -123,7 +133,7 @@
 						<Card.Title class="text-base font-medium">Public Contributions (This month):</Card.Title>
 						<GithubLogo class="h-6 w-6 text-muted-foreground" />
 					</Card.Header>
-					{#if ready}
+					{#if showStats}
 					<Card.Content>
 						{#if $githubThisYear === 0}
 							<p class="text-sm text-foreground">Github API rate limit reached. Come back later</p>

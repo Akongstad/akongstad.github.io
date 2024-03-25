@@ -4,11 +4,11 @@
 	import '../app.pcss';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { onDestroy, onMount } from 'svelte';
-	import { GithubLogo, EnvelopeClosed, Calendar, LinkedinLogo } from 'svelte-radix';
-	import { fade, crossfade } from 'svelte/transition';
+	import { GithubLogo, EnvelopeClosed, Calendar, LinkedinLogo, ChevronDown } from 'svelte-radix';
+	import { fade } from 'svelte/transition';
 	import { Progress } from '$lib/components/ui/progress';
 	import { tweened } from 'svelte/motion';
-	import { cubicOut, linear, quintOut } from 'svelte/easing';
+	import { cubicOut, linear } from 'svelte/easing';
 	import { typewriter } from '$lib/custom-transitions.js';
 	import { Button } from '$lib/components/ui/button';
 	import * as Avatar from '$lib/components/ui/avatar';
@@ -63,21 +63,24 @@
 		ready = false;
 		showBio = false;
 	});
-	const [send, receive] = crossfade({
-		duration: 500,
-	});
+
+	function scrollIntoView({target}) {
+		const el = document.querySelector(target.getAttribute('href'));
+		el.scrollIntoView({
+			behavior: 'smooth'
+		});
+	}
 
 </script>
-
-<div class="flex justify-center p-10">
-	<Avatar.Root class="size-44 sm:size-44 md:size-60 max-w-96">
-		<Avatar.Image src="https://github.com/Akongstad.png" alt="Andreas Kongstad" />
-		<Avatar.Fallback>
-			<Skeleton class="size-32 sm:size-44 md:size-60 rounded-full" />
-		</Avatar.Fallback>
-	</Avatar.Root>
-</div>
-<header>
+<main>
+	<div class="flex justify-center p-10">
+		<Avatar.Root class="size-44 sm:size-44 md:size-60 max-w-96">
+			<Avatar.Image src="https://github.com/Akongstad.png" alt="Andreas Kongstad" />
+			<Avatar.Fallback>
+				<Skeleton class="size-32 sm:size-44 md:size-60 rounded-full" />
+			</Avatar.Fallback>
+		</Avatar.Root>
+	</div>
 	<div class="flex justify-center mb-1 md:px-20 px-5 text-center ">
 		<Card.Root class=" p-4 bg-accent text-left min-h-56 sm:w-[600px] md:w-[900px]">
 			<div class="flex items-center mb-1">
@@ -87,8 +90,8 @@
 			</div>
 			<Card.Header>
 				<Card.Title>
-						<pre><span class="text-green-600">you@andreas-kongstad</span>:<span
-							class="text-blue-500">/home/andreas$</span>{#if ready}<span transition:typewriter={{ speed: 1 }}> cat whoami.txt</span>{/if}</pre>
+						<pre><span class="text-green-600">visitor@andreas-kongstad</span>:<span
+							class="text-blue-500">/home/andreas$</span>{#if ready}<span transition:typewriter={{ speed: 1 }}> cat andreas_info.txt</span>{/if}</pre>
 				</Card.Title>
 			</Card.Header>
 			<Card.Content>
@@ -101,13 +104,12 @@
 			</Card.Content>
 		</Card.Root>
 	</div>
-</header>
 
 
 	<div class="flex justify-center ">
 		<div class="grid gap-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 md:px-20 px-5 py-4 md:w-[1000px] w-[590px]"
 				 transition:fade={{duration: 10}}>
-			<Card.Root>
+			<Card.Root class="bg-accent">
 				<Card.Header>
 					<div class="flex flex-row items-center justify-between space-y-0">
 						<Card.Title class="text-base font-medium">Education Progress | MSc Computer Science</Card.Title>
@@ -115,17 +117,17 @@
 					</div>
 				</Card.Header>
 				{#if showStats}
-				<Card.Content>
-					<Progress value={$educationProgress} />
-					<div class="flex justify-between pt-2">
-						<p class="text-sm text-muted-foreground">{edStart.toDateString()}</p>
-						<p class="text-sm text-muted-foreground">{Math.round(edProgress)}%</p>
-						<p class="text-sm text-muted-foreground">{edEnd.toDateString()}</p>
-					</div>
-				</Card.Content>
-					{/if}
+					<Card.Content>
+						<Progress value={$educationProgress} />
+						<div class="flex justify-between pt-2">
+							<p class="text-sm text-muted-foreground">{edStart.toDateString()}</p>
+							<p class="text-sm text-muted-foreground">{Math.round(edProgress)}%</p>
+							<p class="text-sm text-muted-foreground">{edEnd.toDateString()}</p>
+						</div>
+					</Card.Content>
+				{/if}
 			</Card.Root>
-			<Card.Root>
+			<Card.Root class="bg-accent">
 				<div title="The total number of contributions made to public GitHub repositories in the past month">
 					<Card.Header
 						class="flex flex-row items-center justify-between space-y-0 pb-2"
@@ -134,25 +136,25 @@
 						<GithubLogo class="h-6 w-6 text-muted-foreground" />
 					</Card.Header>
 					{#if showStats}
-					<Card.Content>
-						{#if $githubThisYear === 0}
-							<p class="text-sm text-foreground">Github API rate limit reached. Come back later</p>
-						{:else}
-							<div class="text-2xl font-bold"
-									 title="The total number of contributions made to public GitHub repositories in the past month">
-								+{Math.round($githubThisYear)}</div>
-						{/if}
-						{#if diff > 0}
-							<p class="text-sm text-muted-foreground"
-								 title="the percentage increase or decrease in contributions compared to the last month.">
-								+{Math.round($githubLastYear)}% from last month</p>
-						{:else}
-							<p class="text-sm text-muted-foreground"
-								 title="the percentage increase or decrease in contributions compared to the month.">
-								-{Math.round($githubLastYear)}
-								% from last month</p>
-						{/if}
-					</Card.Content>
+						<Card.Content>
+							{#if $githubThisYear === 0}
+								<p class="text-sm text-foreground">Github API rate limit reached. Come back later</p>
+							{:else}
+								<div class="text-2xl font-bold"
+										 title="The total number of contributions made to public GitHub repositories in the past month">
+									+{Math.round($githubThisYear)}</div>
+							{/if}
+							{#if diff > 0}
+								<p class="text-sm text-muted-foreground"
+									 title="the percentage increase or decrease in contributions compared to the last month.">
+									+{Math.round($githubLastYear)}% from last month</p>
+							{:else}
+								<p class="text-sm text-muted-foreground"
+									 title="the percentage increase or decrease in contributions compared to the month.">
+									-{Math.round($githubLastYear)}
+									% from last month</p>
+							{/if}
+						</Card.Content>
 					{/if}
 				</div>
 			</Card.Root>
@@ -175,7 +177,58 @@
 			</a>
 		</Button>
 	</div>
+	<div class="flex justify-center p-10">
+		<Button variant="ghost" size="icon" class="size-12">
+			<a href="#experience" on:click|preventDefault={scrollIntoView}>
+				<ChevronDown class="h-16 w-16 hover:text-blue-700" />
+			</a>
+		</Button>
+	</div>
 
+	<!--Vertical Line with rounded borders-->
+	<div class="flex justify-center">
+		<div class="w-2 h-96 bg-accent rounded-full" />
+	</div>
+
+	<!--Experience-->
+	<section id="experience">
+		<div class="p-10">
+			<h2 class="text-center text-3xl font-bold">Experience</h2>
+		</div>
+
+	</section>
+
+	<div class="flex justify-evenly">
+		<div class="grid grid-rows-8 grid-flow-col gap-8">
+			<div class="row-start-1 row-end-4 row-span flex col-span-2 justify-end">
+				<Card.Root class="bg-accent">
+					<Card.Header>
+						<Card.Title>Experience</Card.Title>
+					</Card.Header>
+					<Card.Content>
+						<p>Experience 1</p>
+					</Card.Content>
+				</Card.Root>
+			</div>
+			<div class="row-start-1 row-end-8">
+				<div class="w-2 h-96 bg-accent rounded-full" />
+			</div>
+
+			<div class="row-start-3 row-end-6 col-span-2 flex justify-start">
+				<Card.Root class="bg-accent">
+					<Card.Header>
+						<Card.Title>Experience</Card.Title>
+					</Card.Header>
+					<Card.Content>
+						<p>Experience 1</p>
+					</Card.Content>
+				</Card.Root>
+			</div>
+		</div>
+	</div>
+</main>
+
+<!--Footer-->
 <footer class="text-center text-muted-foreground text-sm py-4">
 	<p>&copy; 2024 Andreas Kongstad. Built with SvelteKit/Typescript</p>
 </footer>

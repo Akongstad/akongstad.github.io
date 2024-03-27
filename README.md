@@ -1,4 +1,4 @@
-# andreaskongstad.dev
+# akongstad.github.io
 Small personal website.
 
 ### Dependencies

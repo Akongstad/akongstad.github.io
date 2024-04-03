@@ -64,8 +64,8 @@
 		showBio = false;
 	});
 
-	function scrollIntoView({target}) {
-		const el = document.querySelector(target.getAttribute('href'));
+	function scrollIntoView({ target}) {
+		const el = document.querySelector(target.getAttribute('data-element'));
 		el.scrollIntoView({
 			behavior: 'smooth'
 		});
@@ -73,7 +73,8 @@
 
 </script>
 <main>
-	<div class="flex justify-center p-10">
+	<div id="#top" class="flex justify-center p-10">
+
 		<Avatar.Root class="size-44 sm:size-44 md:size-60 max-w-96">
 			<Avatar.Image src="https://github.com/Akongstad.png" alt="Andreas Kongstad" />
 			<Avatar.Fallback>
@@ -81,28 +82,31 @@
 			</Avatar.Fallback>
 		</Avatar.Root>
 	</div>
-	<div class="flex justify-center mb-1 md:px-20 px-5 text-center ">
-		<Card.Root class=" p-4 bg-accent text-left min-h-56 sm:w-[600px] md:w-[900px]">
-			<div class="flex items-center mb-1">
-				<div class="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
-				<div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
-				<div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
-			</div>
-			<Card.Header>
-				<Card.Title>
-						<pre><span class="text-green-600">visitor@andreas-kongstad</span>:<span
-							class="text-blue-500">/home/andreas$</span>{#if ready}<span transition:typewriter={{ speed: 1 }}> cat andreas_info.txt</span>{/if}</pre>
-				</Card.Title>
-			</Card.Header>
-			<Card.Content>
-				{#if showBio}
-					<code class="text-start font-mono" transition:typewriter={{ speed: 25 }}>Hello, my name is Andreas Kongstad,
-						I am a MSc Computer Science Student @ ITU in Copenhagen who likes problem-solving and improving. I also
-						enjoy coffee☕, running🏃, and many things tech🖥️.
-					</code>
-				{/if}
-			</Card.Content>
-		</Card.Root>
+	<div class="flex justify-center">
+		<div class="mb-1 md:px-20 px-5 text-center md:w-[900px] ">
+			<Card.Root class=" p-4 bg-accent text-left min-h-56">
+				<div class="flex items-center mb-1">
+					<div class="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
+					<div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
+					<div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
+				</div>
+				<Card.Header>
+					<Card.Title>
+						<code><span class="text-green-600">visitor@andreas-kongstad</span>:<span class="text-blue-500">/home/andreas$</span>
+							{#if ready}<span transition:typewriter={{ speed: 1 }}> cat andreas_info.txt</span>{/if}
+						</code>
+					</Card.Title>
+				</Card.Header>
+				<Card.Content>
+					{#if showBio}
+						<code class="text-start font-mono" transition:typewriter={{ speed: 25 }}>Hello, my name is Andreas Kongstad,
+							I am a MSc Computer Science Student @ ITU in Copenhagen who likes problem-solving and improving. I also
+							enjoy coffee☕, running🏃, and many things tech🖥️.
+						</code>
+					{/if}
+				</Card.Content>
+			</Card.Root>
+		</div>
 	</div>
 
 
@@ -151,7 +155,7 @@
 							{:else}
 								<p class="text-sm text-muted-foreground"
 									 title="the percentage increase or decrease in contributions compared to the month.">
-									-{Math.round($githubLastYear)}
+									{Math.round($githubLastYear)}
 									% from last month</p>
 							{/if}
 						</Card.Content>
@@ -179,19 +183,23 @@
 	</div>
 	<div class="flex justify-center p-10">
 		<Button variant="ghost" size="icon" class="size-12">
-			<a href="#experience" on:click|preventDefault={scrollIntoView}>
-				<ChevronDown class="h-16 w-16 hover:text-blue-700" />
+			<a href="#experience" on:click|preventDefault={scrollIntoView} data-element="#experience">
+				<svg class="h-8 w-8 hover:text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+						 stroke="currentColor" data-element="#experience">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							 d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+				</svg>
 			</a>
 		</Button>
 	</div>
 
 	<!--Vertical Line with rounded borders-->
-	<div class="flex justify-center">
-		<div class="w-2 h-96 bg-accent rounded-full" />
-	</div>
+	<!--<div class="flex justify-center">
+		<div class="w-2 h-56 bg-accent rounded-full" />
+	</div>-->
 
 	<!--Experience-->
-	<section id="experience">
+	<!--<section id="experience">
 		<div class="p-10">
 			<h2 class="text-center text-3xl font-bold">Experience</h2>
 		</div>
@@ -199,33 +207,47 @@
 	</section>
 
 	<div class="flex justify-evenly">
-		<div class="grid grid-rows-8 grid-flow-col gap-8">
-			<div class="row-start-1 row-end-4 row-span flex col-span-2 justify-end">
-				<Card.Root class="bg-accent">
+		<div class="grid grid-rows-13 grid-flow-col gap-8">
+			<div class="row-start-1 row-end-3 row-span flex col-span-2 justify-end">
+				<Card.Root class="bg-accent w-[300px]">
 					<Card.Header>
-						<Card.Title>Experience</Card.Title>
+						<Card.Title>That time when i...</Card.Title>
 					</Card.Header>
 					<Card.Content>
-						<p>Experience 1</p>
+						<p>Experience</p>
 					</Card.Content>
 				</Card.Root>
 			</div>
-			<div class="row-start-1 row-end-8">
-				<div class="w-2 h-96 bg-accent rounded-full" />
+<div class="row-start-5 row-end-7 col-span-2 flex justify-start">
+				<Card.Root class="bg-accent w-[300px]">
+					<Card.Header>
+						<Card.Title>???</Card.Title>
+					</Card.Header>
+					<Card.Content>
+						<p> ???</p>
+					</Card.Content>
+				</Card.Root>
 			</div>
 
-			<div class="row-start-3 row-end-6 col-span-2 flex justify-start">
-				<Card.Root class="bg-accent">
+			<div class="row-start-1 row-end-13">
+				<div class="w-2 h-[400px] bg-accent rounded-full" />
+			</div>
+
+			<div class="row-start-3 row-end-5 col-span-2 flex justify-start">
+				<Card.Root class="bg-accent w-[300px]">
 					<Card.Header>
-						<Card.Title>Experience</Card.Title>
+						<Card.Title>Then there was this other time</Card.Title>
 					</Card.Header>
 					<Card.Content>
 						<p>Experience 1</p>
 					</Card.Content>
 				</Card.Root>
 			</div>
+
+
+
 		</div>
-	</div>
+	</div>-->
 </main>
 
 <!--Footer-->

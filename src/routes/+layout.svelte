@@ -10,14 +10,6 @@
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 
-	// This can be false if you're using a fallback (i.e. SPA mode)
-	function scrollIntoView({ target }) {
-		const el = document.querySelector(target.getAttribute('href'));
-		if (!el) return;
-		el.scrollIntoView({
-			behavior: 'smooth'
-		});
-	}
 
 </script>
 
@@ -28,7 +20,7 @@
 	<div class="flex justify-between">
 		<div class="flex space-x-7 pt-1">
 			<div>
-				<a href="{base}/#top" on:click={scrollIntoView}
+				<a href="{base}/#top"
 					class="inline-flex hover:underline space-x-1">
 					<Avatar.Root class="size-8">
 						<Avatar.Image src="https://github.com/Akongstad.png" alt="Andreas Kongstad" />
@@ -53,17 +45,17 @@
 		</div>
 		<!--icons-->
 		<div>
-			<Button variant="ghost" size="icon">
+			<Button variant="ghost" size="icon" class="max-sm:hidden">
 				<a href="https://github.com/Akongstad" target="_blank" rel="noreferrer">
 					<GithubLogo class="h-6 w-6 hover:text-purple-700" />
 				</a>
 			</Button>
-			<Button variant="ghost" size="icon">
+			<Button variant="ghost" size="icon" class="max-sm:hidden">
 				<a href="https://www.linkedin.com/in/andreas-kongstad/" target="_blank" rel="noreferrer">
 					<LinkedinLogo class="h-6 w-6 hover:text-blue-700" />
 				</a>
 			</Button>
-			<Button variant="ghost" size="icon">
+			<Button variant="ghost" size="icon" class="max-sm:hidden">
 				<a href="mailto: akongstad.contact@icloud.com">
 					<EnvelopeClosed class="h-6 w-6 hover:text-blue-700" />
 				</a>

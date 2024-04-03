@@ -73,7 +73,7 @@
 
 </script>
 <main>
-	<div id="#top" class="flex justify-center p-10">
+	<div id="top" class="flex justify-center p-10">
 
 		<Avatar.Root class="size-44 sm:size-44 md:size-60 max-w-96">
 			<Avatar.Image src="https://github.com/Akongstad.png" alt="Andreas Kongstad" />
@@ -181,7 +181,7 @@
 			</a>
 		</Button>
 	</div>
-	<div class="flex justify-center p-10">
+	<!--<div class="flex justify-center p-10">
 		<Button variant="ghost" size="icon" class="size-12">
 			<a href="#experience" on:click|preventDefault={scrollIntoView} data-element="#experience">
 				<svg class="h-8 w-8 hover:text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -191,7 +191,7 @@
 				</svg>
 			</a>
 		</Button>
-	</div>
+	</div>-->
 
 	<!--Vertical Line with rounded borders-->
 	<!--<div class="flex justify-center">

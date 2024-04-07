@@ -181,7 +181,7 @@
 			</a>
 		</Button>
 	</div>
-	<!--<div class="flex justify-center p-10">
+	<div class="flex justify-center p-10">
 		<Button variant="ghost" size="icon" class="size-12">
 			<a href="#experience" on:click|preventDefault={scrollIntoView} data-element="#experience">
 				<svg class="h-8 w-8 hover:text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -191,25 +191,25 @@
 				</svg>
 			</a>
 		</Button>
-	</div>-->
+	</div>
 
 	<!--Vertical Line with rounded borders-->
-	<!--<div class="flex justify-center">
-		<div class="w-2 h-56 bg-accent rounded-full" />
-	</div>-->
+	<div class="flex justify-center">
+		<div class="w-2 h-56 bg-accent rounded-t-full" />
+	</div>
 
-	<!--Experience-->
-	<!--<section id="experience">
-		<div class="p-10">
+	<section id="experience">
+		<div class="flex justify-center">
+		<div class="w-52 h-52 pt-20 rounded-full bg-accent mr-2">
 			<h2 class="text-center text-3xl font-bold">Experience</h2>
 		</div>
-
+		</div>
 	</section>
 
 	<div class="flex justify-evenly">
 		<div class="grid grid-rows-13 grid-flow-col gap-8">
 			<div class="row-start-1 row-end-3 row-span flex col-span-2 justify-end">
-				<Card.Root class="bg-accent w-[300px]">
+				<Card.Root class="bg-accent">
 					<Card.Header>
 						<Card.Title>That time when i...</Card.Title>
 					</Card.Header>
@@ -218,8 +218,8 @@
 					</Card.Content>
 				</Card.Root>
 			</div>
-<div class="row-start-5 row-end-7 col-span-2 flex justify-start">
-				<Card.Root class="bg-accent w-[300px]">
+<div class="row-start-5 row-end-7 col-span-2 flex justify-end">
+				<Card.Root class="bg-accent">
 					<Card.Header>
 						<Card.Title>???</Card.Title>
 					</Card.Header>
@@ -229,25 +229,23 @@
 				</Card.Root>
 			</div>
 
-			<div class="row-start-1 row-end-13">
-				<div class="w-2 h-[400px] bg-accent rounded-full" />
+			<div class="row-start-1 row-end-13 justify-center ">
+					<div class="w-2 h-[400px] bg-accent rounded-b-full" />
 			</div>
 
-			<div class="row-start-3 row-end-5 col-span-2 flex justify-start">
-				<Card.Root class="bg-accent w-[300px]">
+
+			<div class="row-start-3 row-end-5 col-span-2 justify-start">
+				<Card.Root class="bg-accent">
 					<Card.Header>
-						<Card.Title>Then there was this other time</Card.Title>
+						<Card.Title>Then there wasimasdasdasdase</Card.Title>
 					</Card.Header>
 					<Card.Content>
 						<p>Experience 1</p>
 					</Card.Content>
 				</Card.Root>
 			</div>
-
-
-
 		</div>
-	</div>-->
+	</div>
 </main>
 
 <!--Footer-->
